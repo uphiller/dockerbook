@@ -25,6 +25,9 @@ docker tag
 
 docker push
 
+docker run --name app1 -d -p 8081:8081 springboot
+
+
 #docker install
 sudo apt install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
 sudo curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
