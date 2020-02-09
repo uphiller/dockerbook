@@ -43,3 +43,5 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
 
 kubectl taint nodes --all 
+
+kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-service-type=NodePort" 
