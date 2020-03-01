@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nodejs-app
-        image: heroku/nodejs-hello-world
+        image: uphiller/nodejs-hello-world
         ports:
         - containerPort: 3000
