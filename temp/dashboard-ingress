@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: kubernetes-dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: foo.bar.com
+    http:
+      paths:
+      - path: /dashboard
+        backend:
+          serviceName: kubernetes-dashboard 
+          servicePort: 443

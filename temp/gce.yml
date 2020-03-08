@@ -1,0 +1,11 @@
+apiVersion: kubeadm.k8s.io/v1beta1
+kind: ClusterConfiguration
+controllerManager:
+  extraArgs:
+    cloud-provider: gce
+    cloud-config: /etc/kubernetes/cloud
+  extraVolumes:
+  - name: cloud-config
+    hostPath: /etc/kubernetes/cloud-config
+    mountPath: /etc/kubernetes/cloud
+    pathType: FileOrCreate
