@@ -1,6 +1,6 @@
 sudo apt-get update
 
-sudo apt-get install \
+sudo apt-get - y install \
 apt-transport-https \
 ca-certificates \
 curl \
@@ -16,7 +16,7 @@ stable"
 
 sudo apt-get update
 
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
 sudo usermod -aG docker $USER
 
@@ -40,8 +40,8 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
+#kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
 
-kubectl taint nodes --all 
+#kubectl taint nodes --all 
 
-kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-service-type=NodePort" 
+#kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-service-type=NodePort" 
