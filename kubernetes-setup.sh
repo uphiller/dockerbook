@@ -40,8 +40,8 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-#kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
 
-#kubectl taint nodes --all 
+kubectl taint nodes --all node-role.kubernetes.io/master-
 
-#kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-service-type=NodePort" 
+kubectl apply -f "https://cloud.weave.works/k8s/scope.yaml?k8s-service-type=NodePort" 
