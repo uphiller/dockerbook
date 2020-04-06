@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: board-app
+  labels:
+    app: board-app 
+spec:
+  containers:
+  - name: backend 
+    image: uphiller/board-backend
+    ports:
+    - containerPort: 8080
+  - name: front
+    image: uphiller/board-front
+    ports:
+    - containerPort: 80    
+  - name: mysql 
+    image: mysql
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: "1234"
+    ports:
+    - containerPort: 3306
