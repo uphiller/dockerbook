@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: board-ingress
+  namespace: default
+spec:
+  rules:
+    - host: ab9f2316024fe469fa0fdff4d889a133-1780068787.ap-northeast-2.elb.amazonaws.com
+      http:
+        paths:
+          - backend:
+              serviceName: board-svc
+              servicePort: 80

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: board-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: board-app
+  template:
+    metadata:
+      labels:
+        app: board-app
+    spec:
+      containers:
+      - name: board-app
+        image: uphiller/board-front
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: board-svc
+spec:
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: board-app
