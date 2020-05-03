@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-app
+  labels:
+    app: nodejs-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs-app
+  template:
+    metadata:
+      labels:
+        app: nodejs-app
+    spec:
+      containers:
+      - name: nodejs-app
+        image: uphiller/nodejs-hello-world
+        ports:
+        - containerPort: 3000
+      env:
+      - name: LANGUAGE
+        valueFrom:
+          configMapKeyRef:
+            name: hello-config
+            key: language
+
