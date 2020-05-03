@@ -1,4 +1,3 @@
-#board-app-multi.yaml
 apiVersion: v1
 kind: Pod
 metadata:
