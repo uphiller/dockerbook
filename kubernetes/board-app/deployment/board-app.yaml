@@ -47,6 +47,7 @@ spec:
       containers:
       - name: board-app-front 
         image: uphiller/board-front
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 ---
@@ -107,4 +108,16 @@ spec:
   - port: 8080
     protocol: TCP
     targetPort: 8080
-
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: board-app-front 
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: board-app-front
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 20
