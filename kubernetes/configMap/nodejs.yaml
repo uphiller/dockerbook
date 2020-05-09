@@ -16,13 +16,13 @@ spec:
     spec:
       containers:
       - name: nodejs-app
-        image: uphiller/nodejs-hello-world
+        image: uphiller/nodejs-hello-world:configmap
         ports:
         - containerPort: 3000
-      env:
-      - name: LANGUAGE
-        valueFrom:
-          configMapKeyRef:
-            name: hello-config
-            key: language
+        env:
+        - name: LANGUAGE
+          valueFrom:
+            configMapKeyRef:
+              name: hello-config
+              key: language
 
