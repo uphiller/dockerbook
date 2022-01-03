@@ -27,7 +27,6 @@ sudo apt-mark hold kubelet kubeadm kubectl
 sudo swapoff -a
 
 sudo mkdir /etc/docker
-
 cat <<EOF | sudo tee /etc/docker/daemon.json
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
