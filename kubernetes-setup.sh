@@ -12,20 +12,6 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
 sudo usermod -aG docker $USER
 
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-
-cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
-deb https://apt.kubernetes.io/ kubernetes-xenial main
-EOF
-
-sudo apt-get update
-
-sudo apt-get install -y kubelet kubeadm kubectl
-
-sudo apt-mark hold kubelet kubeadm kubectl
-
-sudo swapoff -a
-
 sudo mkdir /etc/docker
 cat <<EOF | sudo tee /etc/docker/daemon.json
 {
@@ -42,9 +28,19 @@ sudo systemctl enable docker
 
 sudo systemctl daemon-reload
 
-sudo rm /etc/docker/daemon.json
-
 sudo systemctl restart docker
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+sudo apt-get update
+
+sudo apt-get install -y kubelet kubeadm kubectl
+
+sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo kubeadm init
 
