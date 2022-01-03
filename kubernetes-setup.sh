@@ -1,11 +1,10 @@
 sudo apt-get update
 
-sudo apt-get -y install \
-apt-transport-https \
-ca-certificates \
-curl \
-gnupg2 \
-software-properties-common
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
@@ -33,6 +32,24 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo swapoff -a
+
+sudo mkdir /etc/docker
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+
+sudo systemctl enable docker
+
+sudo systemctl daemon-reload
+
+sudo systemctl restart docker
 
 sudo kubeadm init
 
