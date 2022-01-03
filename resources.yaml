@@ -1,0 +1,104 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gitlab-kubernetes-agent
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gitlab-kubernetes-agent
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab-kubernetes-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitlab-kubernetes-agent
+  template:
+    metadata:
+      labels:
+        app: gitlab-kubernetes-agent
+    spec:
+      serviceAccountName: gitlab-kubernetes-agent
+      containers:
+      - name: agent
+        # Make sure to specify a matching version for production
+        image: "registry.gitlab.com/gitlab-org/cluster-integration/gitlab-agent/agentk:vX.Y.Z"
+        args:
+        - --token-file=/config/token
+        - --kas-address
+        - wss://kas.host.tld:443 # replace this line with the line below if using Omnibus GitLab or GitLab.com.
+        # - wss://gitlab.host.tld:443/-/kubernetes-agent/
+        # - wss://kas.gitlab.com # for GitLab.com users, use this KAS.
+        # - grpc://host.docker.internal:8150 # use this attribute when connecting from Docker.
+        volumeMounts:
+        - name: token-volume
+          mountPath: /config
+      volumes:
+      - name: token-volume
+        secret:
+          secretName: gitlab-kubernetes-agent-token
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitlab-kubernetes-agent-write
+rules:
+- resources:
+  - '*'
+  apiGroups:
+  - '*'
+  verbs:
+  - create
+  - update
+  - delete
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gitlab-kubernetes-agent-write-binding
+roleRef:
+  name: gitlab-kubernetes-agent-write
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- name: gitlab-kubernetes-agent
+  kind: ServiceAccount
+  namespace: gitlab-kubernetes-agent
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gitlab-kubernetes-agent-read
+rules:
+- resources:
+  - '*'
+  apiGroups:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gitlab-kubernetes-agent-read-binding
+roleRef:
+  name: gitlab-kubernetes-agent-read
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- name: gitlab-kubernetes-agent
+  kind: ServiceAccount
+  namespace: gitlab-kubernetes-agent
