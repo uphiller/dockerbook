@@ -52,7 +52,16 @@ sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
 #master
-kubeadm init --cri-socket /var/run/cri-dockerd.sock
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --cri-socket /var/run/cri-dockerd.sock
+
+mkdir -p $HOME/.kube
+
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 
 #node
-sudo kubeadm join 172.31.1.24:6443 --token h1rixl.nexyhta3vw3z0cvo  --discovery-token-ca-cert-hash sha256:176e82fb984e8bb8383254ac04eda85d1bf3fbe013a80e6961767b5d559b05c6 --cri-socket /var/run/cri-dockerd.sock
+kubeadm join 172.31.1.24:6443 --token wpood7.3t7z1j8keyuaooy2 \
+        --discovery-token-ca-cert-hash sha256:81db5ca7b514ed44c7d6242822bced9f0b81b04e0c8124a7f72b47ae17ba2bc7  --cri-socket /var/run/cri-dockerd.sock
