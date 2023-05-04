@@ -83,3 +83,42 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 #node
 kubeadm join 172.31.1.24:6443 --token wpood7.3t7z1j8keyuaooy2 \
         --discovery-token-ca-cert-hash sha256:81db5ca7b514ed44c7d6242822bced9f0b81b04e0c8124a7f72b47ae17ba2bc7  --cri-socket /var/run/cri-dockerd.sock
+        
+        
+        
+ #new 
+ sudo apt-get update
+
+sudo apt-get install -y ca-certificates curl gnupg lsb-release software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+sudo apt-get update
+
+sudo apt-get install -y containerd.io
+
+sudo vi /etc/containerd/config.toml
+#disabled_plugins = ["cri"] 수정
+
+/etc/sysctl.conf
+net.ipv4.ip_forward=1 수정
+sysctl -p
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+
+sudo apt-get update
+
+sudo apt-get install -y kubelet kubeadm kubectl
+
+sudo apt-mark hold kubelet kubeadm kubectl
+
+
+명령어 
+
+watch kubectl get pods --all-namespaces
