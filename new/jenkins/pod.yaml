@@ -1,0 +1,36 @@
+# vi jenkins.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins
+  namespace: jenkins
+  labels:
+    app: jenkins-server
+spec:
+  containers:
+    - name: jenkins
+      image: jenkins:2.60.3
+      ports:
+        - containerPort: 8080
+      volumeMounts:
+        - mountPath: /var/jenkins_home
+          name: jenkins-data
+  volumes:
+    - name: jenkins-data
+      persistentVolumeClaim:
+        claimName: jenkins-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  type: NodePort
+  selector:
+    app: jenkins-server
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30080
