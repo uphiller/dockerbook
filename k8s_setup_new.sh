@@ -109,6 +109,8 @@ sudo sysctl -p
 
 modprobe br_netfilter
 
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
 cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
