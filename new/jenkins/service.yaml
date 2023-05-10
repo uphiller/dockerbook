@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: jenkins-service
-  namespace: devops-tools
+  namespace: jenkins
   annotations:
     prometheus.io/scrape: 'true'
     prometheus.io/path:   /
