@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: jenkins
-      image: jenkins:jdk11
+      image: jenkins/jenkins
       ports:
         - name: httpport
           containerPort: 8080
