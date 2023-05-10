@@ -122,7 +122,7 @@ sudo apt-mark hold kubelet kubeadm kubectl
 
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 
-kdir -p $HOME/.kube
+mkdir -p $HOME/.kube
 
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
