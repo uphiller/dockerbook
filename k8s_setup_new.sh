@@ -136,3 +136,6 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 명령어 
 
 watch kubectl get pods --all-namespaces
+
+
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
