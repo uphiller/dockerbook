@@ -11,7 +11,10 @@ spec:
     - name: jenkins
       image: jenkins:2.60.3
       ports:
-        - containerPort: 8080
+        - name: httpport
+          containerPort: 8080
+        - name: jnlpport
+          containerPort: 50000
       volumeMounts:
         - mountPath: /var/jenkins_home
           name: jenkins-data
