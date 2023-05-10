@@ -104,7 +104,7 @@ sudo vi /etc/containerd/config.toml
 
 /etc/sysctl.conf
 net.ipv4.ip_forward=1 수정
-sysctl -p
+sudo sysctl -p
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
