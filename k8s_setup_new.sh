@@ -101,7 +101,7 @@ sudo apt-get install -y containerd.io
 
 sudo vi /etc/containerd/config.toml
 #disabled_plugins = ["cri"] 수정
-systemctl restart containerd
+sudo systemctl restart containerd
 
 /etc/sysctl.conf
 net.ipv4.ip_forward=1 수정
